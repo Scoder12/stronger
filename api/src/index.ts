@@ -3,7 +3,7 @@ import fastify from "fastify";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { AppDataSource } from "./data-source";
-import { HelloResolver } from "./resolvers/HelloResolver";
+import HelloResolver from "./resolvers/HelloResolver";
 
 async function main() {
   await AppDataSource.initialize();
