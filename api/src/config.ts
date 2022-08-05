@@ -1,7 +1,11 @@
 import { z } from "zod";
 
+const PORT_REGEX = /^\d{1,5}$/g;
+const SESSION_SECRET_REGEX = /^[0-9a-f]{64}$/g;
 const schema = z.object({
-  GREETING: z.string(),
+  SESSION_SECRET: z.string().regex(SESSION_SECRET_REGEX),
+  LISTEN_HOST: z.string().default("127.0.0.1"),
+  LISTEN_PORT: z.string().regex(PORT_REGEX).default("8080"),
 });
 export const CONFIG = schema.parse(process.env);
 
