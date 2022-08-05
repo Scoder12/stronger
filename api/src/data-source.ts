@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { DataSource } from "typeorm";
 import { __DEV__ } from "./config";
 import { User } from "./entity/User";
