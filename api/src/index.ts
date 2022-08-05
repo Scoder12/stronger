@@ -1,11 +1,12 @@
 import fastifySecureSession from "@fastify/secure-session";
-import { ApolloServer } from "apollo-server-fastify";
+import { ApolloServer, FastifyContext } from "apollo-server-fastify";
 import createFastify from "fastify";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
 import { CONFIG } from "./config";
 import { AppDataSource } from "./data-source";
 import HelloResolver from "./resolvers/HelloResolver";
+import { Context } from "./types";
 
 async function main() {
   await AppDataSource.initialize();
@@ -21,9 +22,9 @@ async function main() {
   });
   const server = new ApolloServer({
     schema,
-    context: (params) => {
-      console.log({ params });
-    },
+    context: ({ request }: FastifyContext): Context => ({
+      session: request.session,
+    }),
   });
   await server.start();
   fastify.register(server.createHandler());
