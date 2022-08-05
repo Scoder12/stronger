@@ -1,1 +1,3 @@
-console.log("hello");
+import { CONFIG } from "./config.js";
+
+console.log(CONFIG.GREETING);
