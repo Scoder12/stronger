@@ -6,6 +6,7 @@ import { buildSchema } from "type-graphql";
 import { CONFIG } from "./config";
 import { AppDataSource } from "./data-source";
 import HelloResolver from "./resolvers/HelloResolver";
+import UserResolver from "./resolvers/user/UserResolver";
 import { Context } from "./types";
 
 async function main() {
@@ -18,7 +19,7 @@ async function main() {
   });
 
   const schema = await buildSchema({
-    resolvers: [HelloResolver],
+    resolvers: [HelloResolver, UserResolver],
   });
   const server = new ApolloServer({
     schema,

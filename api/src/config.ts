@@ -11,3 +11,6 @@ export const CONFIG = schema.parse(process.env);
 
 export const __PROD__ = process.env.NODE_ENV == "production";
 export const __DEV__ = !__PROD__;
+
+export const USERNAME_MIN = 4;
+export const USERNAME_MAX = 32;
