@@ -9,14 +9,15 @@ export const LinkButton = ({
   primary = true,
 }: PropsWithChildren<LinkButtonProps>): JSX.Element => {
   return (
-    <Link
-      href={href}
-      className={
-        "mx-2 rounded-md px-6 py-2.5 " +
-        (primary ? "bg-blue-500" : "outline outline-1 outline-blue-500")
-      }
-    >
-      {children}
+    <Link href={href}>
+      <a
+        className={
+          "text-lg mx-2 rounded-md px-6 py-2.5 " +
+          (primary ? "bg-blue-500" : "outline outline-1 outline-blue-500")
+        }
+      >
+        {children}
+      </a>
     </Link>
   );
 };
