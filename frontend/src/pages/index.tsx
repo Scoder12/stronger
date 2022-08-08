@@ -5,13 +5,15 @@ export default function Home() {
     <div className="h-full flex justify-center items-center">
       <div className="">
         <div className="w-full flex justify-center mb-5">
-          <h1 className="text-5xl font-bold inline">Stronger</h1>
+          <h1 className="text-6xl font-bold inline">Stronger</h1>
         </div>
-        <div className="w-full flex justify-center">
-          <LinkButton href="#" primary={false}>
+        <div className="w-full flex">
+          <LinkButton className="mr-1 flex-grow" href="#" primary={false}>
             Login
           </LinkButton>
-          <LinkButton href="#">Register</LinkButton>
+          <LinkButton className="ml-1 flex-grow" href="#">
+            Register
+          </LinkButton>
         </div>
       </div>
     </div>
