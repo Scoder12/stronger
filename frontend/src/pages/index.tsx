@@ -9,7 +9,7 @@ export default function Home() {
           <h1 className="text-6xl font-bold inline">Stronger</h1>
         </div>
         <div className="w-full flex">
-          <LinkButton className="mr-1 flex-grow" href="#" primary={false}>
+          <LinkButton className="mr-1 flex-grow" href="/login" primary={false}>
             Login
           </LinkButton>
           <LinkButton className="ml-1 flex-grow" href="#">
