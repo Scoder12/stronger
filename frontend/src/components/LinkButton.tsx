@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { PropsWithChildren } from "react";
 
-export type LinkButtonProps = { href: string; primary?: bool };
+export type LinkButtonProps = { href: string; primary?: boolean };
 
 export const LinkButton = ({
   children,
