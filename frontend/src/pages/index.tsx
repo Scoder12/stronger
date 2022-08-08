@@ -1,9 +1,10 @@
+import Center from "../components/Center";
 import LinkButton from "../components/LinkButton";
 
 export default function Home() {
   return (
-    <div className="h-full flex justify-center items-center">
-      <div className="">
+    <Center className="h-full">
+      <div>
         <div className="w-full flex justify-center mb-5">
           <h1 className="text-6xl font-bold inline">Stronger</h1>
         </div>
@@ -16,6 +17,6 @@ export default function Home() {
           </LinkButton>
         </div>
       </div>
-    </div>
+    </Center>
   );
 }
