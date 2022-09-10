@@ -94,4 +94,10 @@ export default class UserResolver {
     if (!userId) return null;
     return User.findOne({ where: { id: userId } });
   }
+
+  @Mutation(() => Boolean)
+  async logout(@Ctx() { session }: Context): Promise<boolean> {
+    session.set("userId", undefined);
+    return true;
+  }
 }
