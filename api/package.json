@@ -19,7 +19,7 @@
   "dependencies": {
     "@fastify/cors": "^7.0.0",
     "@fastify/secure-session": "^4.1.1",
-    "apollo-server-fastify": "^3.10.0",
+    "apollo-server-fastify": "^3.10.2",
     "argon2": "^0.28.7",
     "better-sqlite3": "^7.6.2",
     "class-validator": "^0.13.2",

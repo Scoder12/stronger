@@ -2,24 +2,15 @@ import {
   Arg,
   Ctx,
   Field,
-  InputType,
   Mutation,
   ObjectType,
+  Query,
   Resolver,
 } from "type-graphql";
 import { USERNAME_MAX, USERNAME_MIN } from "../../config";
 import { User } from "../../entity/User";
 import { Context } from "../../types";
-import { hashPassword } from "./hashPassword";
-
-@InputType()
-class RegisterRequest {
-  @Field()
-  username: string;
-
-  @Field()
-  password: string;
-}
+import { hashPassword, verifyPassword } from "./hashPassword";
 
 @ObjectType()
 class FieldError {
@@ -31,7 +22,7 @@ class FieldError {
 }
 
 @ObjectType()
-class RegisterResponse {
+class MaybeUser {
   @Field(() => [FieldError])
   errors: FieldError[];
 
@@ -42,15 +33,16 @@ class RegisterResponse {
 const err = (field: string, message: string) => ({
   errors: [{ field, message }],
 });
+const ok = <T>(val: T) => ({ errors: [], val });
 
 @Resolver(User)
 export default class UserResolver {
-  @Mutation(() => RegisterResponse)
+  @Mutation(() => MaybeUser)
   async register(
     @Ctx() { session: _session }: Context,
-    @Arg("request", () => RegisterRequest)
-    { username, password }: RegisterRequest
-  ): Promise<RegisterResponse> {
+    @Arg("username") username: string,
+    @Arg("password") password: string
+  ): Promise<MaybeUser> {
     if (username.length < USERNAME_MIN)
       return err(
         "username",
@@ -77,6 +69,29 @@ export default class UserResolver {
       }
       throw e;
     }
-    return { user, errors: [] };
+    return ok(user);
+  }
+
+  @Mutation(() => MaybeUser)
+  async login(
+    @Ctx() { session }: Context,
+    @Arg("username") username: string,
+    @Arg("password") password: string
+  ): Promise<MaybeUser> {
+    if (!username) return err("username", "Username is required");
+    if (!password) return err("password", "Password is required");
+    const user = await User.findOne({ where: { username } });
+    if (!user) return err("username", "User does not exist");
+    if (!(await verifyPassword(user.passwordHash, password)))
+      return err("password", "Incorrect password");
+    session.set("userId", user.id);
+    return ok(user);
+  }
+
+  @Query(() => User, { nullable: true })
+  async me(@Ctx() { session }: Context): Promise<User | null> {
+    const userId = session.get("userId");
+    if (!userId) return null;
+    return User.findOne({ where: { id: userId } });
   }
 }
