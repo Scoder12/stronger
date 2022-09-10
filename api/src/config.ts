@@ -6,6 +6,10 @@ const schema = z.object({
   SESSION_SECRET: z.string().regex(SESSION_SECRET_REGEX),
   LISTEN_HOST: z.string().default("127.0.0.1"),
   LISTEN_PORT: z.string().regex(PORT_REGEX).default("8080"),
+  CORS_ORIGINS: z
+    .string()
+    .default("")
+    .transform((val) => val.split(",")),
 });
 export const CONFIG = schema.parse(process.env);
 
