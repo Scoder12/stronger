@@ -1,5 +1,32 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Field, FieldProps, Form, Formik, useField } from "formik";
+import Button from "../Button";
 import Center from "../Center";
+
+const Input = ({
+  field,
+  form,
+  label,
+  ...props
+}: FieldProps & { label: string }) => {
+  const [, { error }] = useField(field);
+  console.log({ error });
+  return (
+    <label className={"" + (error ? "text-red-500" : "")}>
+      <div className="pb-1">
+        <span className="font-semibold">{label}</span>
+        <span className="px-2">-</span>
+        <span className="italic">{error}</span>
+      </div>
+      <input
+        className={
+          "py-1 block " + (error ? "border border-solid border-red-500" : "")
+        }
+        {...field}
+        {...props}
+      />
+    </label>
+  );
+};
 
 export const LoginPage = (): JSX.Element => {
   return (
@@ -15,8 +42,10 @@ export const LoginPage = (): JSX.Element => {
         >
           {() => (
             <Form>
-              <Field type="text" name="username" />
-              <ErrorMessage name="username" component="div" />
+              <Field name="username" label="Username" component={Input} />
+              <Button type="submit" className="float-right">
+                Login
+              </Button>
             </Form>
           )}
         </Formik>
