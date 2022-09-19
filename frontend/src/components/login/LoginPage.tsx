@@ -7,19 +7,22 @@ const Input = ({
   form,
   label,
   ...props
-}: FieldProps & { label: string }) => {
+}: any & FieldProps & { label: string }) => {
   const [, { error }] = useField(field);
   console.log({ error });
   return (
     <label className={"" + (error ? "text-red-500" : "")}>
-      <div className="pb-1">
-        <span className="font-semibold">{label}</span>
-        <span className="px-2">-</span>
-        <span className="italic">{error}</span>
-      </div>
+      <span className="font-semibold">{label}</span>
+      {error ? (
+        <>
+          <span className="px-2">-</span>
+          <span className="italic">{error}</span>
+        </>
+      ) : null}
       <input
         className={
-          "py-1 block " + (error ? "border border-solid border-red-500" : "")
+          "py-1 block border border-solid " +
+          (error ? "border-red-500" : "border-transparent")
         }
         {...field}
         {...props}
@@ -43,7 +46,8 @@ export const LoginPage = (): JSX.Element => {
           {() => (
             <Form>
               <Field name="username" label="Username" component={Input} />
-              <Button type="submit" className="float-right">
+              <Field name="password" label="Password" component={Input} type="password" />
+              <Button type="submit" className="float-right mt-2">
                 Login
               </Button>
             </Form>
