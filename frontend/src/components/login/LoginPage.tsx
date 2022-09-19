@@ -1,4 +1,6 @@
+import { FetchResult } from "@apollo/client";
 import { Field, FieldProps, Form, Formik, useField } from "formik";
+import { LoginMutation, LoginMutationVariables, useLoginMutation } from "src/generated/graphql";
 import Button from "../Button";
 import Center from "../Center";
 
@@ -31,16 +33,31 @@ const Input = ({
   );
 };
 
-export const LoginPage = (): JSX.Element => {
+export interface LoginFormProps {
+  login: (vars: LoginMutationVariables) => Promise<FetchResult<LoginMutation, Record<string, any>, Record<string, any>>>;
+};
+
+function fieldErrorsToFormik(errors: ({field: string; message: string;})[]) {
+  return Object.fromEntries(errors.map(e => [e.field, e.message]));
+}
+
+export const LoginForm = ({ login }: LoginFormProps): JSX.Element => {
   return (
     <Center className="h-full">
       <div>
         <h1 className="text-4xl text-bold">Login</h1>
         <Formik
-          initialValues={{ username: "" }}
-          onSubmit={(values: any, { setErrors }) => {
+          initialValues={{ username: "", password: "" }}
+          onSubmit={async (values: { username: string; password: string; }, { setErrors }) => {
             console.log(values);
-            setErrors({ username: "bad" });
+            const res = await login(values);
+            const fieldErrors = res.data?.login.errors;
+            console.log({fieldErrors})
+            if (fieldErrors) {
+              const e = fieldErrorsToFormik(fieldErrors);
+              console.log({e})
+              setErrors(e);
+            }
           }}
         >
           {() => (
@@ -57,3 +74,16 @@ export const LoginPage = (): JSX.Element => {
     </Center>
   );
 };
+
+export const LoginPage = (): JSX.Element => {
+  const [login, { data, loading, error }] = useLoginMutation();
+
+  if (data && data.login.user)
+    return <p>{"hi " + data.login.user}</p>;
+  if (loading)
+    return <p>loading IDIOT </p>;
+  if (error)
+    return <p>oopsies . </p>
+
+  return <LoginForm login={(variables) => login({ variables })} />;
+}
