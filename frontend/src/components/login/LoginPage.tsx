@@ -15,7 +15,7 @@ const Input = ({
   ...props
 }: any & FieldProps & { label: string }) => {
   const [, { error }] = useField(field);
-  console.log({ error });
+
   return (
     <label className={"" + (error ? "text-red-500" : "")}>
       <span className="font-semibold">{label}</span>
@@ -71,7 +71,7 @@ export const LoginForm = ({ login }: LoginFormProps): JSX.Element => {
             }
           }}
         >
-          {() => (
+          {({ isSubmitting }) => (
             <Form>
               <Field name="username" label="Username" component={Input} />
               <Field
@@ -80,7 +80,11 @@ export const LoginForm = ({ login }: LoginFormProps): JSX.Element => {
                 component={Input}
                 type="password"
               />
-              <Button type="submit" className="float-right mt-2">
+              <Button
+                type="submit"
+                className="float-right mt-2"
+                disabled={isSubmitting}
+              >
                 Login
               </Button>
             </Form>
@@ -95,7 +99,6 @@ export const LoginPage = (): JSX.Element => {
   const [login, { data, loading, error }] = useLoginMutation();
 
   if (data && data.login.user) return <p>{"hi " + data.login.user}</p>;
-  if (loading) return <p>loading IDIOT </p>;
   if (error) return <p>oopsies . </p>;
 
   return <LoginForm login={(variables) => login({ variables })} />;
