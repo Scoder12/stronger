@@ -27,7 +27,7 @@ const Input = ({
       ) : null}
       <input
         className={
-          "py-1 block border border-solid " +
+          "py-1 w-full rounded-md block border border-solid " +
           (error ? "border-red-500" : "border-transparent")
         }
         {...field}
@@ -52,7 +52,7 @@ function fieldErrorsToFormik(errors: { field: string; message: string }[]) {
 export const LoginForm = ({ login }: LoginFormProps): JSX.Element => {
   return (
     <Center className="h-full">
-      <div>
+      <div className="w-full max-w-sm px-3">
         <h1 className="text-4xl text-bold">Login</h1>
         <Formik
           initialValues={{ username: "", password: "" }}
