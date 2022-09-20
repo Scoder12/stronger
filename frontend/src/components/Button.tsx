@@ -15,6 +15,7 @@ export const Button = ({
     <button
       className={
         "text-center text-md rounded-md px-4 py-2 " +
+        "disabled:opacity-75 " +
         (primary ? "bg-blue-500" : "outline outline-1 outline-blue-500") +
         " " +
         className
