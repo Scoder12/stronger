@@ -27,7 +27,7 @@ const Input = ({
       ) : null}
       <input
         className={
-          "py-1 w-full rounded-md block border border-solid " +
+          "p-1 w-full rounded-md block border border-solid " +
           (error ? "border-red-500" : "border-transparent")
         }
         {...field}
