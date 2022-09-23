@@ -27,7 +27,7 @@ class MaybeUser {
   errors: FieldError[];
 
   @Field(() => User, { nullable: true })
-  user?: User;
+  user?: User | null;
 }
 
 const err = (field: string, message: string) => ({
