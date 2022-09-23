@@ -1,12 +1,9 @@
 import { Field, Form, Formik } from "formik";
 import { useLoginMutation } from "src/generated/graphql";
+import fieldErrorsToFormik from "../../fieldErrorsToFormik";
 import Button from "../Button";
 import Center from "../Center";
 import Input from "../Input";
-
-function fieldErrorsToFormik(errors: { field: string; message: string }[]) {
-  return Object.fromEntries(errors.map((e) => [e.field, e.message]));
-}
 
 export const LoginForm = (): JSX.Element => {
   const [login, { data, loading, error }] = useLoginMutation();
