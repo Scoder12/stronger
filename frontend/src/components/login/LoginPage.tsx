@@ -61,13 +61,10 @@ export const LoginForm = ({ loading, login }: LoginFormProps): JSX.Element => {
             values: { username: string; password: string },
             { setErrors }
           ) => {
-            console.log(values);
             const res = await login(values);
             const fieldErrors = res.data?.login.errors;
-            console.log({ fieldErrors });
             if (fieldErrors) {
               const e = fieldErrorsToFormik(fieldErrors);
-              console.log({ e });
               setErrors(e);
             }
           }}
