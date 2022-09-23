@@ -38,6 +38,7 @@ const Input = ({
 };
 
 export interface LoginFormProps {
+  loading: boolean;
   login: (
     vars: LoginMutationVariables
   ) => Promise<
@@ -49,7 +50,7 @@ function fieldErrorsToFormik(errors: { field: string; message: string }[]) {
   return Object.fromEntries(errors.map((e) => [e.field, e.message]));
 }
 
-export const LoginForm = ({ login }: LoginFormProps): JSX.Element => {
+export const LoginForm = ({ loading, login }: LoginFormProps): JSX.Element => {
   return (
     <Center className="h-full">
       <div className="w-full max-w-sm px-3">
@@ -84,6 +85,7 @@ export const LoginForm = ({ login }: LoginFormProps): JSX.Element => {
                 type="submit"
                 className="float-right mt-2"
                 disabled={isSubmitting}
+                loading={loading}
               >
                 Login
               </Button>
@@ -101,5 +103,7 @@ export const LoginPage = (): JSX.Element => {
   if (data && data.login.user) return <p>{"hi " + data.login.user}</p>;
   if (error) return <p>oopsies . </p>;
 
-  return <LoginForm login={(variables) => login({ variables })} />;
+  return (
+    <LoginForm loading={loading} login={(variables) => login({ variables })} />
+  );
 };
