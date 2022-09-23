@@ -2,7 +2,7 @@ import { Field, Form, Formik } from "formik";
 import { useLoginMutation } from "src/generated/graphql";
 import fieldErrorsToFormik from "../../fieldErrorsToFormik";
 import Button from "../Button";
-import Center from "../Center";
+import { FormPage } from "../FormPage";
 import Input from "../Input";
 
 export const LoginForm = (): JSX.Element => {
@@ -54,10 +54,8 @@ export const LoginForm = (): JSX.Element => {
 
 export const LoginPage = (): JSX.Element => {
   return (
-    <Center className="h-full">
-      <div className="w-full max-w-sm px-3">
-        <LoginForm />
-      </div>
-    </Center>
+    <FormPage>
+      <LoginForm />
+    </FormPage>
   );
 };
