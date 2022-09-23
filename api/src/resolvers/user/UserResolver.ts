@@ -33,7 +33,7 @@ class MaybeUser {
 const err = (field: string, message: string) => ({
   errors: [{ field, message }],
 });
-const ok = <T>(val: T) => ({ errors: [], val });
+const ok = <T>(val: T): T & { errors: [] } => ({ errors: [], ...val });
 
 @Resolver(User)
 export default class UserResolver {
@@ -85,7 +85,7 @@ export default class UserResolver {
     if (!(await verifyPassword(user.passwordHash, password)))
       return err("password", "Incorrect password");
     session.set("userId", user.id);
-    return ok(user);
+    return ok({ user });
   }
 
   @Query(() => User, { nullable: true })
