@@ -5,5 +5,6 @@ if (!backend) throw new Error("NEXT_PUBLIC_BACKEND_URL is unset");
 
 export const client = new ApolloClient({
   uri: backend + "/graphql",
+  credentials: "include",
   cache: new InMemoryCache(),
 });
