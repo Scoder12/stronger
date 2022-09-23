@@ -1,36 +1,8 @@
-import { Field, FieldProps, Form, Formik, useField } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useLoginMutation } from "src/generated/graphql";
 import Button from "../Button";
 import Center from "../Center";
-
-const Input = ({
-  field,
-  form,
-  label,
-  ...props
-}: any & FieldProps & { label: string }) => {
-  const [, { error }] = useField(field);
-
-  return (
-    <label className={"" + (error ? "text-red-500" : "")}>
-      <span className="font-semibold">{label}</span>
-      {error ? (
-        <>
-          <span className="px-2">-</span>
-          <span className="italic">{error}</span>
-        </>
-      ) : null}
-      <input
-        className={
-          "p-1 w-full rounded-md block border border-solid " +
-          (error ? "border-red-500" : "border-transparent")
-        }
-        {...field}
-        {...props}
-      />
-    </label>
-  );
-};
+import Input from "../Input";
 
 function fieldErrorsToFormik(errors: { field: string; message: string }[]) {
   return Object.fromEntries(errors.map((e) => [e.field, e.message]));
