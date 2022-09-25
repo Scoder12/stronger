@@ -12,7 +12,7 @@ export default function Home() {
           <LinkButton className="mr-1 flex-grow" href="/login" primary={false}>
             Login
           </LinkButton>
-          <LinkButton className="ml-1 flex-grow" href="#">
+          <LinkButton className="ml-1 flex-grow" href="/register">
             Register
           </LinkButton>
         </div>
