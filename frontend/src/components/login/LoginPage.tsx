@@ -8,7 +8,7 @@ import Input from "../Input";
 export const LoginForm = (): JSX.Element => {
   const [login, { data, loading, error }] = useLoginMutation();
 
-  if (data && data.login.user) return <p>{"hi " + data.login.user}</p>;
+  if (data && data.login.user) return <p>{"hi " + data.login.user.username}</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (

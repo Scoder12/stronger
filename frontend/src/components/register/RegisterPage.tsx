@@ -10,7 +10,8 @@ import Input from "../Input";
 export const RegisterForm = (): JSX.Element => {
   const [register, { data, loading, error }] = useRegisterMutation();
 
-  if (data && data.register.user) return <p>{"hi " + data.register.user}</p>;
+  if (data && data.register.user)
+    return <p>{"hi " + data.register.user.username}</p>;
   if (error) return <p>Error: {error.message}</p>;
 
   return (
