@@ -13,7 +13,6 @@ export const LoginForm = (): JSX.Element => {
 
   return (
     <>
-      <h1 className="text-4xl text-bold">Login</h1>
       <Formik
         initialValues={{ username: "", password: "" }}
         onSubmit={async (
@@ -23,8 +22,7 @@ export const LoginForm = (): JSX.Element => {
           const res = await login({ variables: values });
           const fieldErrors = res.data?.login.errors;
           if (fieldErrors) {
-            const e = fieldErrorsToFormik(fieldErrors);
-            setErrors(e);
+            setErrors(fieldErrorsToFormik(fieldErrors));
           }
         }}
       >
@@ -54,7 +52,7 @@ export const LoginForm = (): JSX.Element => {
 
 export const LoginPage = (): JSX.Element => {
   return (
-    <FormPage>
+    <FormPage name="Login">
       <LoginForm />
     </FormPage>
   );
