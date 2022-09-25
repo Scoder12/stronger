@@ -69,7 +69,7 @@ export default class UserResolver {
       }
       throw e;
     }
-    return ok(user);
+    return ok({ user });
   }
 
   @Mutation(() => MaybeUser)
