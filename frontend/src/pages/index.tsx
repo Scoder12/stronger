@@ -1,7 +1,19 @@
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import Center from "../components/Center";
 import LinkButton from "../components/LinkButton";
+import { useMeQuery } from "../generated/graphql";
 
-export default function Home() {
+export default function Index() {
+  const router = useRouter();
+  const { data } = useMeQuery();
+
+  useEffect(() => {
+    if (data?.me?.username) {
+      router.push("/home");
+    }
+  }, [router, data]);
+
   return (
     <Center className="h-full">
       <div>
