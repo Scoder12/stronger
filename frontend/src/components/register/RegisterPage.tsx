@@ -1,5 +1,7 @@
 import { Field, Form, Formik } from "formik";
-import { useRegisterMutation } from "src/generated/graphql";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { useMeQuery, useRegisterMutation } from "src/generated/graphql";
 import fieldErrorsToFormik from "../../fieldErrorsToFormik";
 import Button from "../Button";
 import { FormPage } from "../FormPage";
@@ -8,11 +10,18 @@ import Input from "../Input";
 // The code here could be shared wiht LoginPage, but that would be annoying!
 
 export const RegisterForm = (): JSX.Element => {
+  const { data: meQueryData } = useMeQuery();
   const [register, { data, loading, error }] = useRegisterMutation();
+  const router = useRouter();
 
-  if (data && data.register.user)
-    return <p>{"hi " + data.register.user.username}</p>;
+  useEffect(() => {
+    if (meQueryData?.me?.username || data?.register.user?.username) {
+      router.push("/home");
+    }
+  }, [meQueryData, data]);
+
   if (error) return <p>Error: {error.message}</p>;
+  const disabled = loading || Boolean(data?.register.user?.username);
 
   return (
     <>
@@ -31,17 +40,23 @@ export const RegisterForm = (): JSX.Element => {
       >
         {({ isSubmitting }) => (
           <Form>
-            <Field name="username" label="Username" component={Input} />
             <Field
+              name="username"
+              label="Username"
+              component={Input}
+              disabled={isSubmitting || disabled}
+            />
+            <Field
+              type="password"
               name="password"
               label="Password"
               component={Input}
-              type="password"
+              disabled={isSubmitting || disabled}
             />
             <Button
               type="submit"
               className="float-right mt-2"
-              disabled={isSubmitting}
+              disabled={isSubmitting || disabled}
               loading={loading}
             >
               Register
