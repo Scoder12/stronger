@@ -74,7 +74,7 @@ export default class UserResolver {
 
   @Mutation(() => MaybeUser)
   async login(
-    @Ctx() { session }: Context,
+    @Ctx() ctx: Context,
     @Arg("username") username: string,
     @Arg("password") password: string
   ): Promise<MaybeUser> {
@@ -84,13 +84,13 @@ export default class UserResolver {
     if (!user) return err("username", "User does not exist");
     if (!(await verifyPassword(user.passwordHash, password)))
       return err("password", "Incorrect password");
-    session.set("userId", user.id);
+    ctx.setUserId(user.id);
     return ok({ user });
   }
 
   @Query(() => User, { nullable: true })
-  async me(@Ctx() { session }: Context): Promise<User | null> {
-    const userId = session.get("userId");
+  async me(@Ctx() ctx: Context): Promise<User | null> {
+    const userId = ctx.userId();
     if (!userId) return null;
     return User.findOne({ where: { id: userId } });
   }

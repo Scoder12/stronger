@@ -26,9 +26,8 @@ async function main() {
   const server = new ApolloServer({
     schema,
     csrfPrevention: true,
-    context: ({ request }: FastifyContext): Context => ({
-      session: request.session,
-    }),
+    context: ({ request }: FastifyContext): Context =>
+      new Context(request.session),
   });
   await server.start();
 
