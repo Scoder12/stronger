@@ -18,9 +18,10 @@ export const Input = ({
         </>
       ) : null}
       <input
+        type="text"
         className={
-          "p-1 w-full rounded-md block border border-solid " +
-          (error ? "border-red-500" : "border-transparent")
+          "p-1 w-full rounded-sm block border border-solid " +
+          (error ? "border-red-500" : "")
         }
         {...field}
         {...props}
