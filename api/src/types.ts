@@ -1,4 +1,5 @@
 import { Session } from "@fastify/secure-session";
+import { User } from "./entity/User";
 
 export class Context {
   session: Session;
@@ -7,7 +8,7 @@ export class Context {
     this.session = session;
   }
 
-  userId(): number | undefined {
+  userId(): number | null {
     const uid = Number(this.session.get("userId"));
     if (isNaN(uid)) return null;
     return uid;
@@ -19,7 +20,7 @@ export class Context {
 
   async user() {
     const id = this.userId();
-    if (userId === null) return null;
+    if (id === null) return null;
     return await User.findOne({ where: { id } });
   }
 }
